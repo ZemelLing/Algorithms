@@ -42,11 +42,44 @@ namespace Algorithms
             return true;
         }
         
+        protected static IComparable[] Aux;
+
+        protected static void Merge(IComparable[] source, int lo, int mid, int hi)
+        {
+            int i = lo, j = mid + 1;
+            
+            // 将指定a复制到b
+            for (int k = lo; k <= hi; k++)
+            {
+                Aux[k] = source[k];
+            }
+            
+            for (int k = lo; k <= hi; k++)
+            {
+                if (i > mid)
+                {
+                    source[k] = Aux[j++];
+                }
+                else if (j > hi)
+                {
+                    source[k] = Aux[i++];
+                }
+                else if (Less(Aux[j], Aux[i]))
+                {
+                    source[k] = Aux[j++];
+                }
+                else
+                {
+                    source[k] = Aux[i++];
+                }
+            }
+        }
+        
         /*protected void InternalMainTest(string[] args)
         {
             var stdIn = new TextInput();
             var a = stdIn.ReadAllStrings().ToArray<IComparable>();
-            Sort(a);
+            Sort(a); 
             Debug.Assert(IsSorted(a));
             Show(a);
         }*/
